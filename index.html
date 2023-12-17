@@ -43,7 +43,7 @@ function sorting(){
   display()
   if(sorted==false){ setTimeout(sorting,10) }
   else{result[count]++
-       setTimeout(results,1000)
+       setTimeout(results,10)
         
      }
  
@@ -52,6 +52,7 @@ function sorting(){
   if(lp<loops){
     gen()
     mySort()
+    st1.fillText(lp,0,30)
   }
  else{ alert(result)}
  }
