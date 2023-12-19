@@ -1,0 +1,153 @@
+<html>
+<body>
+ <canvas id="Canvas1" width="900" height="400"></canvas>
+ <br>
+ <label for="algorithm">Algorithm:</label>
+  <select id="algorithm">
+    <option value="Bubble">Bubble</option>
+    <option value="Insert">Insert</option>
+  </select>
+ <label for="setsize">Set size:</label>
+  <select id="setsize">
+    <option value="6">6</option>
+    <option value="8">8</option>
+    <option value="12">12</option>
+  </select> 
+  <br> <br>
+ <button id="generate" onclick="gen()" style="font-size: 16px;">Generate</button>
+ <button id="sort" onclick="oneSort()" style="font-size: 18px;">One Sort Cycle</button>
+<br>
+
+<script>
+var c1 = document.getElementById("Canvas1");
+var ct1 = c1.getContext("2d");
+var choiceAlg=document.getElementById('algorithm')
+var choiceSize=document.getElementById('setsize')
+var sortButton=document.getElementById('sort')
+var arr=[], pos=[], boxWidth=60
+var work, sorted=false, anim=0
+var p=0,steps=0, scale=15
+working(false)
+gen()
+ 
+function gen(){
+ if(work){return}
+ size=+(choiceSize.value)
+  for(i=0;i<size;i++){
+    arr[i]=Math.floor(1+Math.random()*9)
+    pos[i]=boxWidth*(i+1)
+  }
+  steps=0
+  display()
+}
+ 
+function display(){
+  ct1.font="18px Monospace"
+  ct1.clearRect(0,0,900,400)
+  ct1.fillStyle="black"
+  ct1.fillText("Steps= "+steps,30,30)
+  for(i=0;i<size;i++){
+    ct1.fillText(arr[i],pos[i],100)
+    ct1.fillRect(pos[i],120,.5*boxWidth,scale*arr[i])
+  }
+}
+
+function oneSort(){
+  if(work==true){ return }
+  working(true)
+  if(choiceAlg.value=="Bubble"){ delay=900; bubbleSort() }
+  if(choiceAlg.value=="Insert"){ delay=1400; insertSort() }
+}
+ 
+function insertSort(){  
+  p=1
+  steps++
+  sorted=true
+  while(p<size-1 && arr[p]>=arr[p-1]){p++; steps++}
+  ct1.fillStyle="cyan"
+  ct1.fillRect(pos[p],120,.5*boxWidth,scale*arr[p])
+  check=p-1
+  while(arr[check]>arr[p] && check>=0){sorted=false; check--}
+    
+  if(!sorted){ 
+    
+    for(turnRed=0; turnRed<p; turnRed++){
+     ct1.fillStyle="green"
+     if(turnRed>check){ct1.fillStyle="red"}
+     ct1.fillRect(pos[turnRed],120,.5*boxWidth,scale*arr[turnRed])
+    }
+    insert(p,check+1)
+   setTimeout( function(){display(); working(false)}, delay)
+  }
+  else{
+   setTimeout( function(){display(); finish()}, delay/3)
+  }
+  
+}
+
+function insert(insHere,frmHere){ 
+  temp=arr[insHere]
+   for(shift=insHere; shift>frmHere; shift--){
+    arr[shift]=arr[shift-1]
+   }
+ arr[frmHere]=temp
+}  
+
+function bubbleSort(){  
+  p=0
+  sorted=true
+  bubble()
+}
+  
+function bubble(){
+ if(p>size-2){working(false);
+      if(sorted){ finish() } 
+      return}
+  steps++
+  if(arr[p+1]<arr[p]){ sorted=false; anim=0; swap(p,p+1)}
+  else{ok(p,p+1)}
+  setTimeout(function(){p++;bubble()},delay)
+ }
+
+function ok(c,d){
+  ct1.fillStyle="green"
+  ct1.fillRect(pos[c],120,.5*boxWidth,scale*arr[c])
+  ct1.fillRect(pos[d],120,.5*boxWidth,scale*arr[d])
+  setTimeout(display,delay/3)
+}
+  
+function swap(a,b){
+  if(anim<=boxWidth){
+    ct1.clearRect(pos[a],120,2*boxWidth,scale*10)
+    ct1.fillStyle="red"
+    ct1.fillRect(pos[a]+anim,120,.5*boxWidth,scale*arr[a])
+    ct1.fillStyle="blue"
+    ct1.fillRect(pos[b]-anim,120,.5*boxWidth,scale*arr[b])
+    anim+=10
+    requestAnimationFrame(function(){swap(a,b)} )
+  }
+  else{
+   temp=arr[a]
+   arr[a]=arr[b]
+   arr[b]=temp
+   display()
+  }
+}
+function finish(){
+  ct1.fillStyle="brown"
+  ct1.fillText("Set is Sorted",200,30)
+  working(false)
+ }
+function working(onoff){
+ if(onoff){
+  work=true
+  sortButton.style.backgroundColor="pink"
+ }
+ else{
+  work=false
+  sortButton.style.backgroundColor="lightgreen"
+ }
+}
+</script>
+</body>
+</html>
