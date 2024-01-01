@@ -1,171 +1,193 @@
 <html>
 <body>
- <canvas id="Canvas1"></canvas>
- <br>
- <label for="algorithm" style="font-size: 4vw">Algorithm:</label>
-  <select id="algorithm">
-    <option value="Bubble">Bubble</option>
-    <option value="Insert">Insert</option>
-    <option value="Selection">Selection</option>
-  </select>
- <label for="setsize" style="font-size: 4vw">Set size:</label>
-  <select id="setsize">
-    <option value="6">6</option>
-    <option value="8">8</option>
-    <option value="12">12</option>
-  </select> 
-  <br> <br>
- <button id="generate" onclick="gen()" style="font-size: 4vw">Generate</button>
- <button id="sort" onclick="oneSort()" style="font-size: 4vw">One Sort Cycle</button>
+ <canvas id="Canvas1"></canvas>
+ <br>
+ <label for="algorithm" style="font-size: 3vw">Algorithm:</label>
+  <select id="algorithm" style="font-size: 3vw">
+    <option value="Bubble">Bubble</option>
+    <option value="Insertion">Insertion</option>
+    <option value="Selection">Selection</option>
+  </select>
+ <label for="setsize" style="font-size: 3vw">Set size:</label>
+  <select id="setsize" style="font-size: 3vw">
+    <option value="6">6</option>
+    <option value="8">8</option>
+    <option value="10">10</option>
+  </select> 
+  <br> <br>
+ <button id="generate" onclick="gen()" style="font-size: 3vw">Generate</button>
+ <button id="sort" onclick="oneSort()" style="font-size: 4vw">Start Sort</button>
 <br>
 <script>
 var c1 = document.getElementById("Canvas1")
 var ct1 = c1.getContext("2d")
 var canWidth=window.innerWidth, canHeight= window.innerHeight
 c1.width=Math.floor(.95*canWidth)
-c1.height=Math.floor(.6*canHeight)
+c1.height=Math.floor(.7*canHeight)
 var boxWidth=Math.floor(.07*canWidth)
 var scale=Math.floor(.03*canHeight)
- 
+ 
 var choiceAlg=document.getElementById('algorithm')
 var choiceSize=document.getElementById('setsize')
 var sortButton=document.getElementById('sort')
- 
-var arr=[]
+ 
+var arr=[], copy=[]
+
 var work, sorted
 var sortCol="green", initCol="gray", wrongCol="red", checkCol="orange"
-var p,steps, delay=1000
+var p,steps, delay
+ delay=1000
 working(false)
 gen()
- 
+ 
 function gen(){
- if(work){return}
- size=+(choiceSize.value)
-  for(i=0;i<size;i++){
-   arr[i]={val: Math.floor(1+Math.random()*9),
-           x: boxWidth*(i+1),
-           y: Math.floor(.1*canHeight),
-           col: initCol
-          }
-  }
-  steps=0
-  display(arr)
-  
+ if(work){return}
+ size=+(choiceSize.value)
+  for(i=0;i<size;i++){
+   arr[i]={val: Math.floor(1+Math.random()*9),
+           x: boxWidth*(i+1),
+           y: Math.floor(.2*canHeight),
+           col: initCol
+          }
+  }
+  steps=0
+  display(arr)
+  
 }
- 
+ 
 function display(item){
-  ct1.font="4vw Monospace"
-  ct1.clearRect(0,0,c1.width,c1.height)
-  ct1.fillStyle="black"
-  ct1.fillText("Steps= "+steps,0,.04*c1.height)
-  for(i=0;i<size;i++){
-    ct1.fillStyle=item[i].col
-    ct1.fillText(item[i].val,item[i].x,item[i].y-20)
-    ct1.fillRect(item[i].x,item[i].y,.5*boxWidth,scale*item[i].val)
-  }
+  ct1.font="3vw Monospace"
+  ct1.clearRect(0,0,c1.width,c1.height)
+  ct1.fillStyle="black"
+  ct1.fillText("Comparison steps "+steps,0,.1*c1.height)
+  for(i=0;i<size;i++){
+    ct1.fillStyle=item[i].col
+    ct1.fillText(item[i].val,item[i].x,item[i].y-.03*c1.height)
+    ct1.fillRect(item[i].x,item[i].y,.6*boxWidth,scale*item[i].val)
+  }
 }
 
 function oneSort(){
-  if(work==true){ return }
-  working(true)
-  if(choiceAlg.value=="Bubble"){ bubbleSort() }
-  if(choiceAlg.value=="Insert"){ insertSort() }
-  if(choiceAlg.value=="Selection"){ selectSort() }
+  if(work==true){ return }
+  steps=0
+  working(true)
+  if(choiceAlg.value=="Bubble"){ bubbleSort() }
+  if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort(1) }
+  if(choiceAlg.value=="Selection"){ selectSort(0) }
 }
 
-function selectSort(){
- p=0
- while(p<size && arr[p].col==sortCol){p++; steps++}
- if(p>=size){ finish(); return }
- arr[p].col=checkCol
- display(arr)
- // find lowest
- lowest=9999999
- check=p
- while(check<size){
-  if(arr[check].val<lowest){ lowest=arr[check].val; lowPlace=check}
-  check++
- }
- arr[lowPlace].col=wrongCol
- setTimeout( function(){ display(arr); swap(p,lowPlace); arr[lowPlace].col=initCol; arr[p].col=sortCol}, .6*delay)
- 
- setTimeout( function(){ display(arr); working(false) }, delay)
+function selectSort(s){
+  if(s>=size){ finish(); return }
+  arr[s].col=checkCol
+  display(arr)
+  lowest=arr[s].val
+  lowPos=s
+  check=s+1
+  while(check<size){
+    if(arr[check].val<lowest){ lowest=arr[check].val; lowPos=check}
+    check++
+    steps++
+  }
+  if(lowPos!=s){arr[lowPos].col=wrongCol
+    setTimeout( function(){ display(arr) }, .6*delay)
+  }
+  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol; arr[s].col=sortCol; display(arr) }, delay)
+  setTimeout( function(){ selectSort(s+1) }, 1.5*delay)
 }
- 
-function insertSort(){  
-  // set first place sorted
-  p=0
-  arr[0].col=sortCol
-  
-  while(p<size && arr[p].col==sortCol){p++; steps++}
-  if(p>=size){ finish(); return }
-  arr[p].col=checkCol
-  display(arr)
- // from unsorted place
- arr[p].col=sortCol
+ 
+function insertSort(i){  
+  if(i>=size){ finish(); return }
+  arr[i].col=checkCol
+  display(arr)
+  arr[i].col=sortCol
+  check=i
+  
+  while(check>0){
+   steps++
+   if(arr[check-1].val>arr[check].val){
+    swap(check-1, check)
+    check--
+   }
+   else{ break }
+  }
+ // slide from check+1 to i
 
- check=p
- while(check>0 && arr[check-1].val>arr[check].val){
-  swap(check-1, check)
-  check--
- }
- setTimeout(function(){ display(arr); working(false)},delay)
+  for(let z=0;z<7;z++){ 
+      copy[z]=JSON.parse( JSON.stringify(arr) )
+      if(z<6){copy[z][check].col=checkCol}
+      for(let slide=check+1; slide<=i; slide++){
+        copy[z][slide].x-=boxWidth*(6-z)/7
+      }
+      setTimeout(function(){
+       display(copy[z]) },(1+.1*z)*delay)      
+  }
+  
+  setTimeout(function(){ insertSort(i+1) }, 2*delay)
 }
 
 
-function bubbleSort(){  
-  p=0
-  sorted=true
-  bubble()
+function bubbleSort(){  
+  p=0
+  sorted=true
+  bubble()
 }
-  
+  
 function bubble(){
- if(p>size-2){working(false);
-      if(sorted){ finish() } 
-      return}
- steps++
- 
- if(arr[p+1].val<arr[p].val){
-    sorted=false;
-    arr[p].col=wrongCol
-    arr[p+1].col=wrongCol
-    display(arr)
-    swap(p,p+1)
-   }
-   else{
-    arr[p].col=sortCol
-    arr[p+1].col=sortCol
-    display(arr)
-  }
-    
-  arr[p].col=initCol
-  arr[p+1].col=initCol
-  setTimeout(function(){ display(arr) }, .6*delay)
-  setTimeout(function(){ p++; bubble() },delay)
- }
+  if(p>size-2){
+     if(sorted){ finish() }
+     else{ setTimeout( function(){ bubbleSort() }, delay ); return}
+  }
+  steps++
+ 
+  if(arr[p+1].val<arr[p].val){
+   sorted=false;
+   arr[p].col=wrongCol
+   arr[p+1].col=wrongCol
+      
+   for(let z=0;z<7;z++){ 
+      copy[z]=JSON.parse( JSON.stringify(arr) )
+      copy[z][p].x+=boxWidth*z/6
+      copy[z][p+1].x-=boxWidth*z/6
+      setTimeout(function(){
+       display(copy[z]) },.1*z*delay)      
+   }
+     
+   swap(p,p+1)
+   }
+   else{
+    arr[p].col=sortCol
+    arr[p+1].col=sortCol
+    display(arr)
+   }
+    
+   arr[p].col=initCol
+   arr[p+1].col=initCol
+   setTimeout(function(){ display(arr) }, .7*delay)
+   setTimeout(function(){ p++; bubble() },delay)
+ }
 
-  
+  
 function swap(a,b){
-   temp=arr[a].val
-   arr[a].val=arr[b].val
-   arr[b].val=temp
+   temp=arr[a].val
+   arr[a].val=arr[b].val
+   arr[b].val=temp
 }
- 
+ 
 function finish(){
-  display(arr)
-  ct1.fillText("Set Sorted",.4*c1.width,.04*c1.height)
-  working(false)
- }
- 
+  display(arr)
+  ct1.fillText("Set Sorted",.5*c1.width,.1*c1.height)
+  working(false)
+}
+ 
 function working(onoff){
- if(onoff){
-  work=true
-  sortButton.style.backgroundColor="pink"
- }
- else{
-  work=false
-  sortButton.style.backgroundColor="lightgreen"
- }
+  if(onoff){
+    work=true
+    sortButton.style.backgroundColor="pink"
+ }
+ else{
+   work=false
+   sortButton.style.backgroundColor="lightgreen"
+ }
 }
 </script>
 </body>
