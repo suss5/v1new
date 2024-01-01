@@ -3,6 +3,8 @@
   <button id="sort" onclick="oneSort()">
      <img src="play100.png"  style="width: 4vw; height: 4vh;">
   </button>
+  <button id="stop" onclick="stopSort()" style="width: 4vw; height: 4vh; background-color: red;"
+    </button>
   <input type="checkbox" id="bar" style="font-size: 3vw">
   <label for="bar" style="font-size: 3vw">Bar</label>
  <canvas id="Canvas1"></canvas>
@@ -159,6 +161,7 @@ function insertSort(i){
   setTimeout(function(){ insertSort(i+1) }, 2*delay)
 }
 
+function stopSort(){}
 
 function bubbleSort(){  
   p=0
