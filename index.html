@@ -13,6 +13,7 @@
     <option value="6">6</option>
     <option value="8">8</option>
     <option value="10">10</option>
+    <option value="9">9R</option>
   </select>
   <label for="speed" style="font-size: 3vw">Speed:</label>
   <select id="speed" style="font-size: 3vw">
@@ -50,13 +51,23 @@ function gen(){
  if(work){return}
  size=+(choiceSize.value)
  delay=+(speedDelay.value)
+ if(size==9){
   for(i=0;i<size;i++){
-   arr[i]={val: Math.floor(1+Math.random()*9),
+   arr[i]={val: i+1,
            x: boxWidth*(i+1),
            y: Math.floor(.2*canHeight),
            col: initCol
           }
-  }
+ }
+  else{
+   for(i=0;i<size;i++){
+    arr[i]={val: Math.floor(1+Math.random()*9),
+            x: boxWidth*(i+1),
+            y: Math.floor(.2*canHeight),
+            col: initCol
+           }
+   }
+ }
   steps=0
   display(arr)
   
