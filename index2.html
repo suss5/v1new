@@ -1,22 +1,40 @@
 <html>
 <body>
-  <button id="sort" onclick="oneSort()" style="font-size: 4vw">Sort</button>
-  <input type="checkbox" id="bar" style="font-size: 3vw">
-  <label for="bar" style="font-size: 3vw">Bar</label>
+  <button id="sort" onclick="oneSort()">
+     <img src="play100.png" style="width: 7vw; height: 7vh;">
+  </button>
+  <button id="stop" onclick="stopSort()">
+     <img src="stop100.png" style="width: 7vw; height: 7vh;">
+    </button>
+  <button id="last">
+     <img src="last100.png" style="width: 7vw; height: 7vh;">
+    </button>
+  <button id="next">
+     <img src="next100.png" style="width: 7vw; height: 7vh;">
+    </button>
+  
+  <select id="algorithm" style="font-size: 3vw">
+    <option value="Bubble">Bubble Sort</option>
+    <option value="Insertion">Insertion Sort</option>
+    <option value="Selection">Selection Sort</option>
+  </select>
+  <button id="barchart">
+     <img src="bar100.png" onclick="chart()" style="width: 6vw; height: 6vh;">
+  </button>
+  <button id="generate" onclick="gen()">
+     <img src="gen100.png" style="width: 6vw; height: 6vh;">
+  </button>
+ 
+ <br>
  <canvas id="Canvas1"></canvas>
  <br>
- <label for="algorithm" style="font-size: 3vw">Algorithm:</label>
-  <select id="algorithm" style="font-size: 3vw">
-    <option value="Bubble">Bubble</option>
-    <option value="Insertion">Insertion</option>
-    <option value="Selection">Selection</option>
-  </select>
+
  <label for="setsize" style="font-size: 3vw">Set size:</label>
   <select id="setsize" style="font-size: 3vw">
-    <option value="6">6</option>
-    <option value="8">8</option>
-    <option value="10">10</option>
-    <option value="9">9R</option>
+    <option value="6">6Random</option>
+    <option value="8">8Random</option>
+    <option value="7">7User</option>
+    <option value="9">9Down</option>
   </select>
   <label for="speed" style="font-size: 3vw">Speed:</label>
   <select id="speed" style="font-size: 3vw">
@@ -24,29 +42,23 @@
     <option value="200">fast</option>
     <option value="1200">slow</option>
   </select> 
-  <br> <br>
- <button id="generate" onclick="gen()" style="font-size: 3vw">Generate</button>
-
-<br>
+  <br>
 <script>
 var c1 = document.getElementById("Canvas1")
 var ct1 = c1.getContext("2d")
 var canWidth=window.innerWidth, canHeight= window.innerHeight
 c1.width=Math.floor(.95*canWidth)
-c1.height=Math.floor(.6*canHeight)
+c1.height=Math.floor(.7*canHeight)
 var boxWidth=Math.floor(.07*canWidth)
-var scale=Math.floor(.03*canHeight)
  
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
 const sortButton=document.getElementById('sort')
-const chkbox = document.getElementById("bar")
-chkbox.addEventListener("click", function(){ display(arr) } )
 const speedDelay=document.getElementById('speed')
 
 var arr=[], copy=[]
 
-var work, sorted
+var work, sorted, chartType=1
 const sortCol="green", wrongCol="red", checkCol="orange"
 const initCol=["brown","purple"]
 var p,steps, delay
@@ -61,7 +73,7 @@ function gen(){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
-           y: Math.floor(.45*canHeight),
+           y: Math.floor(.3*canHeight),
            col: initCol[i%2]
           }
   }
@@ -70,9 +82,10 @@ function gen(){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
-            y: Math.floor(.45*canHeight),
+            y: Math.floor(.3*canHeight),
             col: initCol[i%2]
            }
+     if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
    }
  }
   steps=0
@@ -81,16 +94,23 @@ function gen(){
 }
  
 function display(item){
-  ct1.font="4vw Monospace"
   ct1.clearRect(0,0,c1.width,c1.height)
   ct1.fillStyle="black"
-  ct1.fillText("Comparison steps "+steps,0,.1*c1.height)
+  ct1.font="3vw Monospace"
+  ct1.fillText(steps,0,.2*c1.height)
+  ct1.font="4vw Monospace"
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
-    if(chkbox.checked){
-     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-scale*item[i].val)
+    if(chartType==1){
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.02*canHeight*item[i].val)
     }
     else{
+      ct1.beginPath();
+      ct1.arc(item[i].x + .01*canWidth, item[i].y - .01*canHeight, .4*boxWidth, 0, 6.29);
+      ct1.fill();
+      ct1.lineWidth = 2;
+      ct1.stroke();
+      ct1.fillStyle="pink"
       ct1.fillText(item[i].val,item[i].x,item[i].y)
     }
   }
@@ -157,6 +177,7 @@ function insertSort(i){
   setTimeout(function(){ insertSort(i+1) }, 2*delay)
 }
 
+function stopSort(){}
 
 function bubbleSort(){  
   p=0
@@ -204,10 +225,15 @@ function swap(a,b){
    arr[a].val=arr[b].val
    arr[b].val=temp
 }
- 
+
+  function chart(){
+    chartType=-chartType
+    display(arr)
+  }
 function finish(){
   display(arr)
-  ct1.fillText("Set Sorted",.5*c1.width,.1*c1.height)
+  ct1.font="3vw Monospace"
+  ct1.fillText("Sorted",.5*c1.width,.1*c1.height)
   working(false)
 }
  
