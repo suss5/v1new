@@ -1,7 +1,7 @@
 <html>
 <body>
   <input type="checkbox" id="bar">
-  <label for="bar">Bar/label>
+  <label for="bar">Bar</label>
  <canvas id="Canvas1"></canvas>
  <br>
  <label for="algorithm" style="font-size: 3vw">Algorithm:</label>
@@ -39,7 +39,7 @@ var scale=Math.floor(.03*canHeight)
 var choiceAlg=document.getElementById('algorithm')
 var choiceSize=document.getElementById('setsize')
 var sortButton=document.getElementById('sort')
-
+var chkbox = document.getElementById("bar")
 var speedDelay=document.getElementById('speed')
 var arr=[], copy=[]
 
@@ -54,6 +54,7 @@ function gen(){
  if(work){return}
  size=+(choiceSize.value)
  delay=+(speedDelay.value)
+ 
  if(size==9){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
@@ -84,8 +85,12 @@ function display(item){
   ct1.fillText("Comparison steps "+steps,0,.1*c1.height)
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
-    ct1.fillText(item[i].val,item[i].x,item[i].y-.03*c1.height)
-    ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,scale*item[i].val)
+    if(chkbox.checked){
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,scale*item[i].val)
+    }
+    else{
+      ct1.fillText(item[i].val,item[i].x,item[i].y)
+    }
   }
 }
 
