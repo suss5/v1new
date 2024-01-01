@@ -88,10 +88,11 @@ function gen(){
 }
  
 function display(item){
-  ct1.font="4vw Monospace"
   ct1.clearRect(0,0,c1.width,c1.height)
   ct1.fillStyle="black"
-  ct1.fillText("Comparison steps "+steps,0,.1*c1.height)
+  ct1.font="3vw Monospace"
+  ct1.fillText(steps,0,.1*c1.height)
+  ct1.font="4vw Monospace"
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
     if(chkbox.checked){
@@ -215,7 +216,7 @@ function swap(a,b){
  
 function finish(){
   display(arr)
-  ct1.fillText("Set Sorted",.5*c1.width,.1*c1.height)
+  ct1.fillText("Sorted",.5*c1.width,.1*c1.height)
   working(false)
 }
  
