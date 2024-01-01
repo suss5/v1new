@@ -111,7 +111,7 @@ function selectSort(s){
   if(lowPos!=s){arr[lowPos].col=wrongCol
     setTimeout( function(){ display(arr) }, .6*delay)
   }
-  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol[0]; arr[s].col=sortCol; display(arr) }, delay)
+  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol[lowPos%2]; arr[s].col=sortCol; display(arr) }, delay)
   setTimeout( function(){ selectSort(s+1) }, 1.5*delay)
 }
  
