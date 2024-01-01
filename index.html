@@ -60,7 +60,7 @@ function gen(){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
-           y: Math.floor(.2*canHeight),
+           y: Math.floor(.5*canHeight),
            col: initCol[i%2]
           }
   }
@@ -69,7 +69,7 @@ function gen(){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
-            y: Math.floor(.2*canHeight),
+            y: Math.floor(.4*canHeight),
             col: initCol[i%2]
            }
    }
@@ -87,7 +87,7 @@ function display(item){
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
     if(chkbox.checked){
-     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,scale*item[i].val)
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-scale*item[i].val)
     }
     else{
       ct1.fillText(item[i].val,item[i].x,item[i].y)
