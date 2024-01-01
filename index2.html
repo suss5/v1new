@@ -1,32 +1,42 @@
 <html>
 <body>
- <canvas id="Canvas1" width="900" height="400"></canvas>
+ <canvas id="Canvas1"></canvas>
  <br>
- <label for="algorithm">Algorithm:</label>
-  <select id="algorithm">
+ <label for="algorithm" style="font-size: 3vw">Algorithm:</label>
+  <select id="algorithm" style="font-size: 3vw">
     <option value="Bubble">Bubble</option>
-    <option value="Insert">Insert</option>
+    <option value="Insertion">Insertion</option>
+    <option value="Selection">Selection</option>
   </select>
- <label for="setsize">Set size:</label>
-  <select id="setsize">
+ <label for="setsize" style="font-size: 3vw">Set size:</label>
+  <select id="setsize" style="font-size: 3vw">
     <option value="6">6</option>
     <option value="8">8</option>
-    <option value="12">12</option>
+    <option value="10">10</option>
   </select> 
   <br> <br>
- <button id="generate" onclick="gen()" style="font-size: 16px;">Generate</button>
- <button id="sort" onclick="oneSort()" style="font-size: 18px;">One Sort Cycle</button>
+ <button id="generate" onclick="gen()" style="font-size: 3vw">Generate</button>
+ <button id="sort" onclick="oneSort()" style="font-size: 4vw">Start Sort</button>
 <br>
-
 <script>
-var c1 = document.getElementById("Canvas1");
-var ct1 = c1.getContext("2d");
+var c1 = document.getElementById("Canvas1")
+var ct1 = c1.getContext("2d")
+var canWidth=window.innerWidth, canHeight= window.innerHeight
+c1.width=Math.floor(.95*canWidth)
+c1.height=Math.floor(.7*canHeight)
+var boxWidth=Math.floor(.07*canWidth)
+var scale=Math.floor(.03*canHeight)
+ 
 var choiceAlg=document.getElementById('algorithm')
 var choiceSize=document.getElementById('setsize')
 var sortButton=document.getElementById('sort')
-var arr=[], pos=[], boxWidth=60
-var work, sorted=false, anim=0
-var p=0,steps=0, scale=15
+ 
+var arr=[], copy=[]
+
+var work, sorted
+var sortCol="green", initCol="gray", wrongCol="red", checkCol="orange"
+var p,steps, delay
+ delay=1000
 working(false)
 gen()
  
@@ -34,64 +44,87 @@ function gen(){
  if(work){return}
  size=+(choiceSize.value)
   for(i=0;i<size;i++){
-    arr[i]=Math.floor(1+Math.random()*9)
-    pos[i]=boxWidth*(i+1)
+   arr[i]={val: Math.floor(1+Math.random()*9),
+           x: boxWidth*(i+1),
+           y: Math.floor(.2*canHeight),
+           col: initCol
+          }
   }
   steps=0
-  display()
+  display(arr)
+  
 }
  
-function display(){
-  ct1.font="18px Monospace"
-  ct1.clearRect(0,0,900,400)
+function display(item){
+  ct1.font="3vw Monospace"
+  ct1.clearRect(0,0,c1.width,c1.height)
   ct1.fillStyle="black"
-  ct1.fillText("Steps= "+steps,30,30)
+  ct1.fillText("Comparison steps "+steps,0,.1*c1.height)
   for(i=0;i<size;i++){
-    ct1.fillText(arr[i],pos[i],100)
-    ct1.fillRect(pos[i],120,.5*boxWidth,scale*arr[i])
+    ct1.fillStyle=item[i].col
+    ct1.fillText(item[i].val,item[i].x,item[i].y-.03*c1.height)
+    ct1.fillRect(item[i].x,item[i].y,.6*boxWidth,scale*item[i].val)
   }
 }
 
 function oneSort(){
   if(work==true){ return }
+  steps=0
   working(true)
-  if(choiceAlg.value=="Bubble"){ delay=900; bubbleSort() }
-  if(choiceAlg.value=="Insert"){ delay=1400; insertSort() }
-}
- 
-function insertSort(){  
-  p=1
-  steps++
-  sorted=true
-  while(p<size-1 && arr[p]>=arr[p-1]){p++; steps++}
-  ct1.fillStyle="cyan"
-  ct1.fillRect(pos[p],120,.5*boxWidth,scale*arr[p])
-  check=p-1
-  while(arr[check]>arr[p] && check>=0){sorted=false; check--}
-    
-  if(!sorted){ 
-    
-    for(turnRed=0; turnRed<p; turnRed++){
-     ct1.fillStyle="green"
-     if(turnRed>check){ct1.fillStyle="red"}
-     ct1.fillRect(pos[turnRed],120,.5*boxWidth,scale*arr[turnRed])
-    }
-    insert(p,check+1)
-   setTimeout( function(){display(); working(false)}, delay)
-  }
-  else{
-   setTimeout( function(){display(); finish()}, delay/3)
-  }
-  
+  if(choiceAlg.value=="Bubble"){ bubbleSort() }
+  if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort(1) }
+  if(choiceAlg.value=="Selection"){ selectSort(0) }
 }
 
-function insert(insHere,frmHere){ 
-  temp=arr[insHere]
-   for(shift=insHere; shift>frmHere; shift--){
-    arr[shift]=arr[shift-1]
+function selectSort(s){
+  if(s>=size){ finish(); return }
+  arr[s].col=checkCol
+  display(arr)
+  lowest=arr[s].val
+  lowPos=s
+  check=s+1
+  while(check<size){
+    if(arr[check].val<lowest){ lowest=arr[check].val; lowPos=check}
+    check++
+    steps++
+  }
+  if(lowPos!=s){arr[lowPos].col=wrongCol
+    setTimeout( function(){ display(arr) }, .6*delay)
+  }
+  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol; arr[s].col=sortCol; display(arr) }, delay)
+  setTimeout( function(){ selectSort(s+1) }, 1.5*delay)
+}
+ 
+function insertSort(i){  
+  if(i>=size){ finish(); return }
+  arr[i].col=checkCol
+  display(arr)
+  arr[i].col=sortCol
+  check=i
+  
+  while(check>0){
+   steps++
+   if(arr[check-1].val>arr[check].val){
+    swap(check-1, check)
+    check--
    }
- arr[frmHere]=temp
-}  
+   else{ break }
+  }
+ // slide from check+1 to i
+
+  for(let z=0;z<7;z++){ 
+      copy[z]=JSON.parse( JSON.stringify(arr) )
+      if(z<6){copy[z][check].col=checkCol}
+      for(let slide=check+1; slide<=i; slide++){
+        copy[z][slide].x-=boxWidth*(6-z)/7
+      }
+      setTimeout(function(){
+       display(copy[z]) },(1+.1*z)*delay)      
+  }
+  
+  setTimeout(function(){ insertSort(i+1) }, 2*delay)
+}
+
 
 function bubbleSort(){  
   p=0
@@ -100,52 +133,60 @@ function bubbleSort(){
 }
   
 function bubble(){
- if(p>size-2){working(false);
-      if(sorted){ finish() } 
-      return}
+  if(p>size-2){
+     if(sorted){ finish() }
+     else{ setTimeout( function(){ bubbleSort() }, delay ); return}
+  }
   steps++
-  if(arr[p+1]<arr[p]){ sorted=false; anim=0; swap(p,p+1)}
-  else{ok(p,p+1)}
-  setTimeout(function(){p++;bubble()},delay)
+ 
+  if(arr[p+1].val<arr[p].val){
+   sorted=false;
+   arr[p].col=wrongCol
+   arr[p+1].col=wrongCol
+      
+   for(let z=0;z<7;z++){ 
+      copy[z]=JSON.parse( JSON.stringify(arr) )
+      copy[z][p].x+=boxWidth*z/6
+      copy[z][p+1].x-=boxWidth*z/6
+      setTimeout(function(){
+       display(copy[z]) },.1*z*delay)      
+   }
+     
+   swap(p,p+1)
+   }
+   else{
+    arr[p].col=sortCol
+    arr[p+1].col=sortCol
+    display(arr)
+   }
+    
+   arr[p].col=initCol
+   arr[p+1].col=initCol
+   setTimeout(function(){ display(arr) }, .7*delay)
+   setTimeout(function(){ p++; bubble() },delay)
  }
 
-function ok(c,d){
-  ct1.fillStyle="green"
-  ct1.fillRect(pos[c],120,.5*boxWidth,scale*arr[c])
-  ct1.fillRect(pos[d],120,.5*boxWidth,scale*arr[d])
-  setTimeout(display,delay/3)
-}
   
 function swap(a,b){
-  if(anim<=boxWidth){
-    ct1.clearRect(pos[a],120,2*boxWidth,scale*10)
-    ct1.fillStyle="red"
-    ct1.fillRect(pos[a]+anim,120,.5*boxWidth,scale*arr[a])
-    ct1.fillStyle="blue"
-    ct1.fillRect(pos[b]-anim,120,.5*boxWidth,scale*arr[b])
-    anim+=10
-    requestAnimationFrame(function(){swap(a,b)} )
-  }
-  else{
-   temp=arr[a]
-   arr[a]=arr[b]
-   arr[b]=temp
-   display()
-  }
+   temp=arr[a].val
+   arr[a].val=arr[b].val
+   arr[b].val=temp
 }
+ 
 function finish(){
-  ct1.fillStyle="brown"
-  ct1.fillText("Set is Sorted",200,30)
+  display(arr)
+  ct1.fillText("Set Sorted",.5*c1.width,.1*c1.height)
   working(false)
- }
+}
+ 
 function working(onoff){
- if(onoff){
-  work=true
-  sortButton.style.backgroundColor="pink"
+  if(onoff){
+    work=true
+    sortButton.style.backgroundColor="pink"
  }
  else{
-  work=false
-  sortButton.style.backgroundColor="lightgreen"
+   work=false
+   sortButton.style.backgroundColor="lightgreen"
  }
 }
 </script>
