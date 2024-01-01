@@ -122,7 +122,7 @@ function insertSort(i){
    for(let z=0;z<7;z++){ 
        copy[z]=JSON.parse( JSON.stringify(arr) )
        copy[z][check].y=copy[z][check].y*z/6
-       if(z<6){copy[z][check].col=checkCol}
+       copy[z][check].col=checkCol
        for(let slide=check+1; slide<=i; slide++){
          copy[z][slide].x-=boxWidth*(6-z)/7
        }
@@ -130,6 +130,7 @@ function insertSort(i){
         display(copy[z]) },(1+.1*z)*delay)      
    }
   }
+  setTimeout(function(){ display(arr) }, 1.9*delay)
   setTimeout(function(){ insertSort(i+1) }, 2*delay)
 }
 
