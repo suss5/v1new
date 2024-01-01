@@ -128,7 +128,7 @@ function stopSort(){ go=0 }
   
 function oneSort(){
   if(work){ return }
-  if(arr[size-1].col==sortCol){alert("Sorted, regenerate set"); return}
+  if(arr[size-1].col==sortCol){ return }
   work=true
   delay=+(speedDelay.value)
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
