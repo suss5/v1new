@@ -42,7 +42,8 @@ var speedDelay=document.getElementById('speed')
 var arr=[], copy=[]
 
 var work, sorted
-var sortCol="green", initCol="gray", wrongCol="red", checkCol="orange"
+const sortCol="green", wrongCol="red", checkCol="orange"
+const initCol=["brown","purple"]
 var p,steps, delay
 working(false)
 gen()
@@ -56,7 +57,7 @@ function gen(){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
            y: Math.floor(.2*canHeight),
-           col: initCol
+           col: initCol[i%2]
           }
   }
  }
@@ -65,7 +66,7 @@ function gen(){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
             y: Math.floor(.2*canHeight),
-            col: initCol
+            col: initCol[i%2]
            }
    }
  }
@@ -82,7 +83,7 @@ function display(item){
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
     ct1.fillText(item[i].val,item[i].x,item[i].y-.03*c1.height)
-    ct1.fillRect(item[i].x,item[i].y,.6*boxWidth,scale*item[i].val)
+    ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,scale*item[i].val)
   }
 }
 
@@ -110,7 +111,7 @@ function selectSort(s){
   if(lowPos!=s){arr[lowPos].col=wrongCol
     setTimeout( function(){ display(arr) }, .6*delay)
   }
-  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol; arr[s].col=sortCol; display(arr) }, delay)
+  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol[0]; arr[s].col=sortCol; display(arr) }, delay)
   setTimeout( function(){ selectSort(s+1) }, 1.5*delay)
 }
  
@@ -181,8 +182,8 @@ function bubble(){
     display(arr)
    }
     
-   arr[p].col=initCol
-   arr[p+1].col=initCol
+   arr[p].col=initCol[p%2]
+   arr[p+1].col=initCol[(p+1)%2]
    setTimeout(function(){ display(arr) }, .7*delay)
    setTimeout(function(){ p++; bubble() },delay)
  }
