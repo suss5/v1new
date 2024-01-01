@@ -107,7 +107,7 @@ function display(item){
     else{
       ct1.fillText(item[i].val,item[i].x,item[i].y)
       ct1.beginPath();
-      ct1.arc(item[i].x, item[i].y, radius, 0, 6.29, false);
+      ct1.arc(item[i].x, item[i].y, .4*boxWidth, 0, 6.29);
       ct1.fill();
       ct1.lineWidth = 2;
       ct1.stroke();
