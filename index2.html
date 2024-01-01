@@ -1,5 +1,8 @@
 <html>
 <body>
+  <button id="sort" onclick="oneSort()" style="font-size: 4vw">Sort</button>
+  <input type="checkbox" id="bar" style="font-size: 3vw">
+  <label for="bar" style="font-size: 3vw">Bar</label>
  <canvas id="Canvas1"></canvas>
  <br>
  <label for="algorithm" style="font-size: 3vw">Algorithm:</label>
@@ -13,57 +16,83 @@
     <option value="6">6</option>
     <option value="8">8</option>
     <option value="10">10</option>
+    <option value="9">9R</option>
+  </select>
+  <label for="speed" style="font-size: 3vw">Speed:</label>
+  <select id="speed" style="font-size: 3vw">
+    <option value="600">med</option>
+    <option value="200">fast</option>
+    <option value="1200">slow</option>
   </select> 
   <br> <br>
  <button id="generate" onclick="gen()" style="font-size: 3vw">Generate</button>
- <button id="sort" onclick="oneSort()" style="font-size: 4vw">Start Sort</button>
+
 <br>
 <script>
 var c1 = document.getElementById("Canvas1")
 var ct1 = c1.getContext("2d")
 var canWidth=window.innerWidth, canHeight= window.innerHeight
 c1.width=Math.floor(.95*canWidth)
-c1.height=Math.floor(.7*canHeight)
+c1.height=Math.floor(.6*canHeight)
 var boxWidth=Math.floor(.07*canWidth)
 var scale=Math.floor(.03*canHeight)
  
-var choiceAlg=document.getElementById('algorithm')
-var choiceSize=document.getElementById('setsize')
-var sortButton=document.getElementById('sort')
- 
+const choiceAlg=document.getElementById('algorithm')
+const choiceSize=document.getElementById('setsize')
+const sortButton=document.getElementById('sort')
+const chkbox = document.getElementById("bar")
+chkbox.addEventListener("click", function(){ display(arr) } )
+const speedDelay=document.getElementById('speed')
+
 var arr=[], copy=[]
 
 var work, sorted
-var sortCol="green", initCol="gray", wrongCol="red", checkCol="orange"
+const sortCol="green", wrongCol="red", checkCol="orange"
+const initCol=["brown","purple"]
 var p,steps, delay
- delay=1000
 working(false)
 gen()
  
 function gen(){
  if(work){return}
  size=+(choiceSize.value)
+ 
+ if(size==9){
   for(i=0;i<size;i++){
-   arr[i]={val: Math.floor(1+Math.random()*9),
+   arr[i]={val: 9-i,
            x: boxWidth*(i+1),
-           y: Math.floor(.2*canHeight),
-           col: initCol
+           y: Math.floor(.45*canHeight),
+           col: initCol[i%2]
           }
   }
+ }
+  else{
+   for(i=0;i<size;i++){
+    arr[i]={val: Math.floor(1+Math.random()*9),
+            x: boxWidth*(i+1),
+            y: Math.floor(.45*canHeight),
+            col: initCol[i%2]
+           }
+   }
+ }
   steps=0
   display(arr)
   
 }
  
 function display(item){
-  ct1.font="3vw Monospace"
+  ct1.font="4vw Monospace"
   ct1.clearRect(0,0,c1.width,c1.height)
   ct1.fillStyle="black"
   ct1.fillText("Comparison steps "+steps,0,.1*c1.height)
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
-    ct1.fillText(item[i].val,item[i].x,item[i].y-.03*c1.height)
-    ct1.fillRect(item[i].x,item[i].y,.6*boxWidth,scale*item[i].val)
+    if(chkbox.checked){
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-scale*item[i].val)
+    }
+    else{
+      ct1.fillText(item[i].val,item[i].x,item[i].y)
+    }
   }
 }
 
@@ -71,6 +100,7 @@ function oneSort(){
   if(work==true){ return }
   steps=0
   working(true)
+  delay=+(speedDelay.value)
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
   if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort(1) }
   if(choiceAlg.value=="Selection"){ selectSort(0) }
@@ -91,7 +121,7 @@ function selectSort(s){
   if(lowPos!=s){arr[lowPos].col=wrongCol
     setTimeout( function(){ display(arr) }, .6*delay)
   }
-  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol; arr[s].col=sortCol; display(arr) }, delay)
+  setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol[lowPos%2]; arr[s].col=sortCol; display(arr) }, delay)
   setTimeout( function(){ selectSort(s+1) }, 1.5*delay)
 }
  
@@ -111,17 +141,19 @@ function insertSort(i){
    else{ break }
   }
  // slide from check+1 to i
-
-  for(let z=0;z<7;z++){ 
-      copy[z]=JSON.parse( JSON.stringify(arr) )
-      if(z<6){copy[z][check].col=checkCol}
-      for(let slide=check+1; slide<=i; slide++){
-        copy[z][slide].x-=boxWidth*(6-z)/7
-      }
-      setTimeout(function(){
-       display(copy[z]) },(1+.1*z)*delay)      
+  if(i!=check){
+   for(let z=0;z<7;z++){ 
+       copy[z]=JSON.parse( JSON.stringify(arr) )
+       copy[z][check].y=copy[z][check].y*z/6
+       copy[z][check].col=checkCol
+       for(let slide=check+1; slide<=i; slide++){
+         copy[z][slide].x-=boxWidth*(6-z)/7
+       }
+       setTimeout(function(){
+        display(copy[z]) },(1+.1*z)*delay)      
+   }
   }
-  
+  setTimeout(function(){ display(arr) }, 1.9*delay)
   setTimeout(function(){ insertSort(i+1) }, 2*delay)
 }
 
@@ -160,8 +192,8 @@ function bubble(){
     display(arr)
    }
     
-   arr[p].col=initCol
-   arr[p+1].col=initCol
+   arr[p].col=initCol[p%2]
+   arr[p+1].col=initCol[(p+1)%2]
    setTimeout(function(){ display(arr) }, .7*delay)
    setTimeout(function(){ p++; bubble() },delay)
  }
