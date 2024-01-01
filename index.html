@@ -1,6 +1,6 @@
 <html>
 <body>
-  <button id="sort" onclick="oneSort()">
+  <button id="sort" onclick="longPlay()">
      <img src="play100.png" style="width: 7vw; height: 7vh;">
   </button>
   <button id="stop" onclick="stopSort()">
@@ -9,7 +9,7 @@
   <button id="last">
      <img src="last100.png" style="width: 7vw; height: 7vh;">
     </button>
-  <button id="next">
+  <button id="next" onclick="onePlay()">
      <img src="next100.png" style="width: 7vw; height: 7vh;">
     </button>
   
@@ -32,7 +32,7 @@
  <label for="setsize" style="font-size: 3vw">Set size:</label>
   <select id="setsize" style="font-size: 3vw">
     <option value="6">6Random</option>
-    <option value="8">8Random</option>
+    <option value="10">10Random</option>
     <option value="7">7User</option>
     <option value="9">9Down</option>
   </select>
@@ -61,7 +61,7 @@ var arr=[], copy=[]
 var work=false, sorted, chartType=1
 const sortCol="green", wrongCol="red", checkCol="orange"
 const initCol=["brown","purple"]
-var p,steps, delay
+var p,steps=0, delay, go=0
 
 gen()
  
@@ -115,17 +115,40 @@ function display(item){
     }
   }
 }
+function onePlay(){
+  go=1
+  oneSort()
+ }
+ function longPlay(){
+   go=9999
+   oneSort()
+ }
 
+function stopSort(){ go=0 }
+  
 function oneSort(){
-  if(work==true){ return }
-  steps=0
+  if(work){ return }
+  if(arr[size-1].col==sortCol){alert("Sorted, regenerate set"); return}
   work=true
   delay=+(speedDelay.value)
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
-  if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort(1) }
-  if(choiceAlg.value=="Selection"){ selectSort(0) }
+  if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort( sortedUpTo(arr) ) }
+  if(choiceAlg.value=="Selection"){ selectSort( sortedUpTo(arr) ) }
 }
 
+function sortedUpTo(lookin){
+  for( let u=0; u<size; u++){
+    if(lookin[u].col!=sortCol){return u}
+  }
+  return (size+1)
+}
+  
+function continu(){
+  work=false
+  go--
+  if(go>0){oneSort() }
+}
+  
 function selectSort(s){
   if(s>=size){ finish(); return }
   arr[s].col=checkCol
@@ -142,7 +165,7 @@ function selectSort(s){
     setTimeout( function(){ display(arr) }, .6*delay)
   }
   setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol[lowPos%2]; arr[s].col=sortCol; display(arr) }, delay)
-  setTimeout( function(){ selectSort(s+1) }, 1.5*delay)
+  setTimeout( function(){ continu() }, 1.5*delay)
 }
  
 function insertSort(i){  
@@ -174,10 +197,8 @@ function insertSort(i){
    }
   }
   setTimeout(function(){ display(arr) }, 1.9*delay)
-  setTimeout(function(){ insertSort(i+1) }, 2*delay)
+  setTimeout(function(){ continu() }, 2*delay)
 }
-
-function stopSort(){}
 
 function bubbleSort(){  
   p=0
@@ -187,8 +208,8 @@ function bubbleSort(){
   
 function bubble(){
   if(p>size-2){
-     if(sorted){ finish() }
-     else{ setTimeout( function(){ bubbleSort() }, delay ); return}
+     if(sorted){ finish(); return }
+     else{ setTimeout( function(){ continu() }, delay ); return}
   }
   steps++
  
@@ -231,10 +252,11 @@ function swap(a,b){
     display(arr)
   }
 function finish(){
+  for (f=0;f<size;f++){arr[f].col=sortCol}
   display(arr)
-  ct1.font="3vw Monospace"
-  ct1.fillText("Sorted",.5*c1.width,.1*c1.height)
+  steps=0
   work=false
+  go=0
 }
  
 </script>
