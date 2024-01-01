@@ -56,7 +56,6 @@ gen()
 function gen(){
  if(work){return}
  size=+(choiceSize.value)
- delay=+(speedDelay.value)
  
  if(size==9){
   for(i=0;i<size;i++){
@@ -101,6 +100,7 @@ function oneSort(){
   if(work==true){ return }
   steps=0
   working(true)
+  delay=+(speedDelay.value)
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
   if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort(1) }
   if(choiceAlg.value=="Selection"){ selectSort(0) }
