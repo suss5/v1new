@@ -1,17 +1,20 @@
 <html>
 <body>
   <button id="sort" onclick="oneSort()">
-     <img src="play100.png" style="width: 5vw; height: 5vh;">
+     <img src="play100.png" style="width: 6vw; height: 6vh;">
   </button>
   <button id="stop" onclick="stopSort()">
-     <img src="stop100.png" style="width: 5vw; height: 5vh;">
+     <img src="stop100.png" style="width: 6vw; height: 6vh;">
     </button>
   <button id="last">
-     <img src="last100.png" style="width: 5vw; height: 5vh;">
+     <img src="last100.png" style="width: 6vw; height: 6vh;">
     </button>
   <button id="next">
-     <img src="next100.png" style="width: 5vw; height: 5vh;">
+     <img src="next100.png" style="width: 6vw; height: 6vh;">
     </button>
+   <button id="generate" onclick="gen()">
+     <img src="gen100.png" style="width: 6vw; height: 6vh;">
+   </button>
   
   <select id="algorithm" style="font-size: 3vw">
     <option value="Bubble">Bubble Sort</option>
@@ -19,7 +22,7 @@
     <option value="Selection">Selection Sort</option>
   </select>
     <button id="barchart">
-     <img src="bar100.png" onclick="chart()" style="width: 5vw; height: 5vh;">
+     <img src="bar100.png" onclick="chart()" style="width: 6vw; height: 6vh;">
     </button>
  
  <br>
@@ -39,10 +42,7 @@
     <option value="200">fast</option>
     <option value="1200">slow</option>
   </select> 
-  <br> <br>
- <button id="generate" onclick="gen()" style="font-size: 3vw">Generate</button>
-
-<br>
+  <br>
 <script>
 var c1 = document.getElementById("Canvas1")
 var ct1 = c1.getContext("2d")
