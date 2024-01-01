@@ -33,7 +33,7 @@ var c1 = document.getElementById("Canvas1")
 var ct1 = c1.getContext("2d")
 var canWidth=window.innerWidth, canHeight= window.innerHeight
 c1.width=Math.floor(.95*canWidth)
-c1.height=Math.floor(.7*canHeight)
+c1.height=Math.floor(.6*canHeight)
 var boxWidth=Math.floor(.07*canWidth)
 var scale=Math.floor(.03*canHeight)
  
@@ -62,7 +62,7 @@ function gen(){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
-           y: Math.floor(.5*canHeight),
+           y: Math.floor(.45*canHeight),
            col: initCol[i%2]
           }
   }
@@ -71,7 +71,7 @@ function gen(){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
-            y: Math.floor(.5*canHeight),
+            y: Math.floor(.45*canHeight),
             col: initCol[i%2]
            }
    }
@@ -82,7 +82,7 @@ function gen(){
 }
  
 function display(item){
-  ct1.font="3vw Monospace"
+  ct1.font="4vw Monospace"
   ct1.clearRect(0,0,c1.width,c1.height)
   ct1.fillStyle="black"
   ct1.fillText("Comparison steps "+steps,0,.1*c1.height)
