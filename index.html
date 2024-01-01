@@ -106,7 +106,7 @@ function display(item){
     }
     else{
       ct1.beginPath();
-      ct1.arc(item[i].x, item[i].y, .4*boxWidth, 0, 6.29);
+      ct1.arc(item[i].x + .01*canWidth, item[i].y - .01*canHeight, .4*boxWidth, 0, 6.29);
       ct1.fill();
       ct1.lineWidth = 2;
       ct1.stroke();
