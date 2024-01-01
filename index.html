@@ -1,7 +1,7 @@
 <html>
 <body>
-  <button id="sort" onclick="oneSort()" style="font-size: 4vw">Start Sort</button>
-  <input type="checkbox" id="bar">
+  <button id="sort" onclick="oneSort()" style="font-size: 4vw">Sort</button>
+  <input type="checkbox" id="bar" style="font-size: 3vw">
   <label for="bar">Bar</label>
  <canvas id="Canvas1"></canvas>
  <br>
@@ -69,7 +69,7 @@ function gen(){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
-            y: Math.floor(.4*canHeight),
+            y: Math.floor(.5*canHeight),
             col: initCol[i%2]
            }
    }
