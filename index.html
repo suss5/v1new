@@ -58,11 +58,11 @@ const speedDelay=document.getElementById('speed')
 
 var arr=[], copy=[]
 
-var work, sorted, chartType=1
+var work=false, sorted, chartType=1
 const sortCol="green", wrongCol="red", checkCol="orange"
 const initCol=["brown","purple"]
 var p,steps, delay
-working(false)
+
 gen()
  
 function gen(){
@@ -119,7 +119,7 @@ function display(item){
 function oneSort(){
   if(work==true){ return }
   steps=0
-  working(true)
+  work=true
   delay=+(speedDelay.value)
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
   if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort(1) }
@@ -234,19 +234,9 @@ function finish(){
   display(arr)
   ct1.font="3vw Monospace"
   ct1.fillText("Sorted",.5*c1.width,.1*c1.height)
-  working(false)
+  work=false
 }
  
-function working(onoff){
-  if(onoff){
-    work=true
-    sortButton.style.backgroundColor="pink"
- }
- else{
-   work=false
-   sortButton.style.backgroundColor="lightgreen"
- }
-}
 </script>
 </body>
 </html>
