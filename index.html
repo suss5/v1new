@@ -13,6 +13,12 @@
     <option value="6">6</option>
     <option value="8">8</option>
     <option value="10">10</option>
+  </select>
+  <label for="speed" style="font-size: 3vw">Speed:</label>
+  <select id="speed" style="font-size: 3vw">
+    <option value="med">600</option>
+    <option value="fast">200</option>
+    <option value="slow">1200</option>
   </select> 
   <br> <br>
  <button id="generate" onclick="gen()" style="font-size: 3vw">Generate</button>
@@ -30,19 +36,20 @@ var scale=Math.floor(.03*canHeight)
 var choiceAlg=document.getElementById('algorithm')
 var choiceSize=document.getElementById('setsize')
 var sortButton=document.getElementById('sort')
- 
+
+var speedDelay=document.getElementById('speed')
 var arr=[], copy=[]
 
 var work, sorted
 var sortCol="green", initCol="gray", wrongCol="red", checkCol="orange"
 var p,steps, delay
- delay=1000
 working(false)
 gen()
  
 function gen(){
  if(work){return}
  size=+(choiceSize.value)
+ delay=+(speedDelay.value)
   for(i=0;i<size;i++){
    arr[i]={val: Math.floor(1+Math.random()*9),
            x: boxWidth*(i+1),
