@@ -105,12 +105,13 @@ function display(item){
      ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-scale*item[i].val)
     }
     else{
-      ct1.fillText(item[i].val,item[i].x,item[i].y)
       ct1.beginPath();
       ct1.arc(item[i].x, item[i].y, .4*boxWidth, 0, 6.29);
       ct1.fill();
       ct1.lineWidth = 2;
       ct1.stroke();
+      ct1.fillStyle="pink"
+      ct1.fillText(item[i].val,item[i].x,item[i].y)
     }
   }
 }
