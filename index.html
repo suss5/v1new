@@ -1,5 +1,11 @@
 <html>
 <body>
+  <select id="setsize" style="font-size: 3vw">
+    <option value="6">6Random</option>
+    <option value="10">10Random</option>
+    <option value="7">7User</option>
+    <option value="9">9Down</option>
+  </select>
   <button id="sort" onclick="longPlay()">
      <img src="play100.png" style="width: 7vw; height: 7vh;">
   </button>
@@ -24,25 +30,14 @@
   <button id="generate" onclick="gen()">
      <img src="gen100.png" style="width: 6vw; height: 6vh;">
   </button>
+
+  <br>
+  <input type="range" id="speed" min="1" max="6" value="4" style="width: 35%">
  
  <br>
  <canvas id="Canvas1"></canvas>
  <br>
 
- <label for="setsize" style="font-size: 3vw">Set size:</label>
-  <select id="setsize" style="font-size: 3vw">
-    <option value="6">6Random</option>
-    <option value="10">10Random</option>
-    <option value="7">7User</option>
-    <option value="9">9Down</option>
-  </select>
-  <label for="speed" style="font-size: 3vw">Speed:</label>
-  <select id="speed" style="font-size: 3vw">
-    <option value="600">med</option>
-    <option value="200">fast</option>
-    <option value="1200">slow</option>
-  </select> 
-  <br>
 <script>
 var c1 = document.getElementById("Canvas1")
 var ct1 = c1.getContext("2d")
@@ -130,7 +125,7 @@ function oneSort(){
   if(work){ return }
   if(arr[size-1].col==sortCol){ return }
   work=true
-  delay=+(speedDelay.value)
+  delay=+(speedDelay.value)*200
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
   if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort( sortedUpTo(arr) ) }
   if(choiceAlg.value=="Selection"){ selectSort( sortedUpTo(arr) ) }
