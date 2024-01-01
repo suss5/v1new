@@ -37,11 +37,13 @@ c1.height=Math.floor(.7*canHeight)
 var boxWidth=Math.floor(.07*canWidth)
 var scale=Math.floor(.03*canHeight)
  
-var choiceAlg=document.getElementById('algorithm')
-var choiceSize=document.getElementById('setsize')
-var sortButton=document.getElementById('sort')
-var chkbox = document.getElementById("bar")
-var speedDelay=document.getElementById('speed')
+const choiceAlg=document.getElementById('algorithm')
+const choiceSize=document.getElementById('setsize')
+const sortButton=document.getElementById('sort')
+const chkbox = document.getElementById("bar")
+chkbox.addEventListener("click", function(){ display(arr) } )
+const speedDelay=document.getElementById('speed')
+
 var arr=[], copy=[]
 
 var work, sorted
