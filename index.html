@@ -121,6 +121,7 @@ function insertSort(i){
 
   for(let z=0;z<7;z++){ 
       copy[z]=JSON.parse( JSON.stringify(arr) )
+      copy[z][check].y=copy[z][check].y*z/6
       if(z<6){copy[z][check].col=checkCol}
       for(let slide=check+1; slide<=i; slide++){
         copy[z][slide].x-=boxWidth*(6-z)/7
