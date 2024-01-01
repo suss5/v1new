@@ -12,14 +12,16 @@
   <button id="next">
      <img src="next100.png" style="width: 4vw; height: 4vh;">
     </button>
+  <button id="barchart">
+     <img src="bar100.png" onclick="chart()" style="width: 4vw; height: 4vh;">
+    </button>
   
   <select id="algorithm" style="font-size: 3vw">
     <option value="Bubble">Bubble Sort</option>
     <option value="Insertion">Insertion Sort</option>
     <option value="Selection">Selection Sort</option>
   </select>
- <input type="checkbox" id="bar" style="font-size: 3vw">
- <label for="bar" style="font-size: 3vw">Bar</label>
+ 
  <br>
  <canvas id="Canvas1"></canvas>
  <br>
@@ -53,13 +55,11 @@ var scale=Math.floor(.03*canHeight)
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
 const sortButton=document.getElementById('sort')
-const chkbox = document.getElementById("bar")
-chkbox.addEventListener("click", function(){ display(arr) } )
 const speedDelay=document.getElementById('speed')
 
 var arr=[], copy=[]
 
-var work, sorted
+var work, sorted, chartType=1
 const sortCol="green", wrongCol="red", checkCol="orange"
 const initCol=["brown","purple"]
 var p,steps, delay
@@ -101,7 +101,7 @@ function display(item){
   ct1.font="4vw Monospace"
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
-    if(chkbox.checked){
+    if(chartType==1){
      ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-scale*item[i].val)
     }
     else{
@@ -219,7 +219,10 @@ function swap(a,b){
    arr[a].val=arr[b].val
    arr[b].val=temp
 }
- 
+
+  function chart(){
+    chartType=-chartType
+  }
 function finish(){
   display(arr)
   ct1.fillText("Sorted",.5*c1.width,.1*c1.height)
