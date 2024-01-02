@@ -31,7 +31,8 @@
  <br>
  <canvas id="Canvas1" style="border: 1px solid"></canvas>
  <br>
- <textarea id="myText" rows="5" style="width: 98%"></textarea>
+ <textarea id="myText1" rows="10" style="width: 48%"></textarea>
+ <textarea id="myText2" rows="10" style="width: 48%"></textarea>
  <br>
  <label for="setsize" style="font-size: 2vw">Edit Data Set</label>
  <select id="setsize" style="font-size: 2vw">
@@ -51,7 +52,8 @@ const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
 const sortButton=document.getElementById('sort')
 const speedDelay=document.getElementById('speed')
-const textBox=document.getElementById('myText')
+const text1=document.getElementById('myText1')
+const text2=document.getElementById('myText2')
 var arr=[], copy=[]
 
 var work=false, sorted, chartType=1
@@ -97,11 +99,13 @@ function display(item){
  
   
   if(choiceAlg.value=="Bubble"){
-    textBox.value="Bubble sort is ...\n It is O(n*n) complexity" }
+    text1.value="Bubble sort is ...\n It is O(n*n) complexity" }
+    text2.value="Compare item[n] to item[n+1]" }
   if(choiceAlg.value=="Selection"){
-    textBox.value="Selection sort is ..." }
+    text1.value="Selection sort is ..." }
+    text2.value="find lowest item" }
   if(choiceAlg.value=="Insert"){
-    textBox.value="Insert sort is ..." }
+    text1.value="loop ..." }
 
   ct1.font="4vw Monospace"
   for(i=0;i<size;i++){
