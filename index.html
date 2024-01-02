@@ -60,7 +60,7 @@ var arr=[], oldarr=[], copy=[]
 var work=false, sorted, chartType=1
 const sortCol="green", wrongCol="red", checkCol="orange"
 const initCol=["brown","purple"]
-var p,steps=0, delay, go=0
+var p,steps=0, oldsteps=0 delay, go=0
   
 describe()
 gen()
@@ -88,7 +88,7 @@ function gen(){
      if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
    }
  }
-  steps=0
+  steps=0; oldsteps=0
   oldarr=JSON.parse( JSON.stringify(arr) )
   display(arr)
 }
@@ -147,6 +147,7 @@ function oneSort(){
   if(arr[size-1].col==sortCol){ return }
   work=true
   oldarr=JSON.parse( JSON.stringify(arr) )
+  oldsteps=steps
   delay=+(speedDelay.value)*200
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
   if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort( sortedUpTo(arr) ) }
@@ -265,6 +266,7 @@ function swap(a,b){
 }
 function back(){
   arr=JSON.parse( JSON.stringify(oldarr) )
+  steps=oldsteps
   display(arr)
 }
 function finish(){
