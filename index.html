@@ -30,7 +30,7 @@
  <br>
  <canvas id="Canvas1" style="border: 1px solid"></canvas>
  <br>
- <textarea id="myText" rows="5" style="width: 95%"></textarea>
+ <textarea id="myText" rows="5" style="width: 98%"></textarea>
  <br>
  <label for="setsize" style="font-size: 2vw">Edit Data Set</label>
  <select id="setsize" style="font-size: 2vw">
@@ -43,7 +43,7 @@
 <script>
 const c1 = document.getElementById("Canvas1")
 const ct1 = c1.getContext("2d")
-c1.width=Math.floor(.95*window.innerWidth)
+c1.width=Math.floor(.98*window.innerWidth)
 c1.height=Math.floor(.6*window.innerHeight)
 const boxWidth=Math.floor(.08*window.innerWidth)
 const choiceAlg=document.getElementById('algorithm')
@@ -106,7 +106,7 @@ function display(item){
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
     if(chartType==1){
-     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.02*c1.Height*item[i].val)
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.02*c1.height*item[i].val)
     }
     else{
       ct1.beginPath();
