@@ -46,7 +46,7 @@
 const c1 = document.getElementById("Canvas1")
 const ct1 = c1.getContext("2d")
 c1.width=Math.floor(.98*window.innerWidth)
-c1.height=Math.floor(.5*window.innerHeight)
+c1.height=Math.floor(.4*window.innerHeight)
 const boxWidth=Math.floor(.08*window.innerWidth)
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
@@ -71,7 +71,7 @@ function gen(){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
-           y: Math.floor(.6*c1.height),
+           y: Math.floor(.8*c1.height),
            col: initCol[i%2]
           }
   }
@@ -80,7 +80,7 @@ function gen(){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
-            y: Math.floor(.6*c1.height),
+            y: Math.floor(.8*c1.height),
             col: initCol[i%2]
            }
      if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
