@@ -30,7 +30,7 @@
  <br>
  <canvas id="Canvas1"></canvas>
  <br>
- <input type="text" id="myText" style="width: 75%">
+ <textarea id="myText" rows="5" style="width: 95%"></textarea>
  <br>
  <label for="setsize" style="font-size: 2vw">Edit Data Set</label>
  <select id="setsize" style="font-size: 2vw">
@@ -52,7 +52,7 @@ const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
 const sortButton=document.getElementById('sort')
 const speedDelay=document.getElementById('speed')
-const textBox=speedDelay=document.getElementById('myText')
+const textBox=document.getElementById('myText')
 var arr=[], copy=[]
 
 var work=false, sorted, chartType=1
