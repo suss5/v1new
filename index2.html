@@ -1,6 +1,7 @@
 <html>
 <body>
-  <button id="sort" onclick="oneSort()">
+  
+  <button id="sort" onclick="longPlay()">
      <img src="play100.png" style="width: 7vw; height: 7vh;">
   </button>
   <button id="stop" onclick="stopSort()">
@@ -9,7 +10,7 @@
   <button id="last">
      <img src="last100.png" style="width: 7vw; height: 7vh;">
     </button>
-  <button id="next">
+  <button id="next" onclick="onePlay()">
      <img src="next100.png" style="width: 7vw; height: 7vh;">
     </button>
   
@@ -18,50 +19,48 @@
     <option value="Insertion">Insertion Sort</option>
     <option value="Selection">Selection Sort</option>
   </select>
-  <button id="barchart">
-     <img src="bar100.png" onclick="chart()" style="width: 6vw; height: 6vh;">
+  <button id="slider">
+     <img src="slider1.png" onclick="chart()" style="width: 10vw; height: 6vh;">
   </button>
   <button id="generate" onclick="gen()">
      <img src="gen100.png" style="width: 6vw; height: 6vh;">
   </button>
- 
- <br>
- <canvas id="Canvas1"></canvas>
- <br>
-
- <label for="setsize" style="font-size: 3vw">Set size:</label>
-  <select id="setsize" style="font-size: 3vw">
-    <option value="6">6Random</option>
-    <option value="8">8Random</option>
-    <option value="7">7User</option>
-    <option value="9">9Down</option>
-  </select>
-  <label for="speed" style="font-size: 3vw">Speed:</label>
-  <select id="speed" style="font-size: 3vw">
-    <option value="600">med</option>
-    <option value="200">fast</option>
-    <option value="1200">slow</option>
-  </select> 
   <br>
+  <input type="range" id="speed" min="1" max="6" value="4" style="width: 18%">
+ <br>
+ <br>
+ <canvas id="Canvas1" style="border: 1px solid"></canvas>
+ <br>
+ <textarea id="myText1" rows="12" style="width: 49%"></textarea>
+ <textarea id="myText2" rows="12" style="width: 49%"></textarea>
+ <br>
+ <label for="setsize" style="font-size: 2vw">Edit Data Set</label>
+ <select id="setsize" style="font-size: 2vw">
+    <option value="6">6 Random</option>
+    <option value="10">10 Random</option>
+    <option value="7">7 UserInput</option>
+    <option value="9">9 Decrease</option>
+  </select>
+
 <script>
-var c1 = document.getElementById("Canvas1")
-var ct1 = c1.getContext("2d")
-var canWidth=window.innerWidth, canHeight= window.innerHeight
-c1.width=Math.floor(.95*canWidth)
-c1.height=Math.floor(.7*canHeight)
-var boxWidth=Math.floor(.07*canWidth)
- 
+const c1 = document.getElementById("Canvas1")
+const ct1 = c1.getContext("2d")
+c1.width=Math.floor(.98*window.innerWidth)
+c1.height=Math.floor(.4*window.innerHeight)
+const boxWidth=Math.floor(.08*window.innerWidth)
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
 const sortButton=document.getElementById('sort')
-const speedDelay=document.getElementById('speed')
 
+const speedDelay=document.getElementById('speed')
+const text1=document.getElementById('myText1')
+const text2=document.getElementById('myText2')
 var arr=[], copy=[]
 
 var work=false, sorted, chartType=1
 const sortCol="green", wrongCol="red", checkCol="orange"
 const initCol=["brown","purple"]
-var p,steps, delay
+var p,steps=0, delay, go=0
 
 gen()
  
@@ -73,7 +72,7 @@ function gen(){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
-           y: Math.floor(.3*canHeight),
+           y: Math.floor(.8*c1.height),
            col: initCol[i%2]
           }
   }
@@ -82,7 +81,7 @@ function gen(){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
-            y: Math.floor(.3*canHeight),
+            y: Math.floor(.8*c1.height),
             col: initCol[i%2]
            }
      if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
@@ -97,16 +96,30 @@ function display(item){
   ct1.clearRect(0,0,c1.width,c1.height)
   ct1.fillStyle="black"
   ct1.font="3vw Monospace"
-  ct1.fillText(steps,0,.2*c1.height)
+  ct1.fillText(steps,.9*c1.width,.2*c1.height)
+  
+  if(choiceAlg.value=="Bubble"){
+    text1.value="Bubble sort is ...\n It is O(n*n) complexity in worst case"
+    text2.value="Comparing 1st and 2nd element\n-swap if 1st element is greater\nRepeat for each pair\nIf any swaps done then restart process"
+  }
+    if(choiceAlg.value=="Insertion"){
+    text1.value="Insert ..."
+    text2.value="Insert ..."
+  }
+  if(choiceAlg.value=="Selection"){
+    text1.value="Selection sort is ..." 
+    text2.value="find lowest item"
+  }
+
   ct1.font="4vw Monospace"
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
     if(chartType==1){
-     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.02*canHeight*item[i].val)
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.04*c1.height*item[i].val)
     }
     else{
       ct1.beginPath();
-      ct1.arc(item[i].x + .01*canWidth, item[i].y - .01*canHeight, .4*boxWidth, 0, 6.29);
+      ct1.arc(item[i].x + 10, item[i].y - 10, .45*boxWidth, 0, 6.29);
       ct1.fill();
       ct1.lineWidth = 2;
       ct1.stroke();
@@ -115,17 +128,40 @@ function display(item){
     }
   }
 }
+function onePlay(){
+  go=1
+  oneSort()
+ }
+ function longPlay(){
+   go=9999
+   oneSort()
+ }
 
+function stopSort(){ go=0 }
+  
 function oneSort(){
-  if(work==true){ return }
-  steps=0
+  if(work){ return }
+  if(arr[size-1].col==sortCol){ return }
   work=true
-  delay=+(speedDelay.value)
+  delay=+(speedDelay.value)*200
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
-  if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort(1) }
-  if(choiceAlg.value=="Selection"){ selectSort(0) }
+  if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort( sortedUpTo(arr) ) }
+  if(choiceAlg.value=="Selection"){ selectSort( sortedUpTo(arr) ) }
 }
 
+function sortedUpTo(lookin){
+  for( let u=0; u<size; u++){
+    if(lookin[u].col!=sortCol){return u}
+  }
+  return (size+1)
+}
+  
+function continu(){
+  work=false
+  go--
+  if(go>0){oneSort() }
+}
+  
 function selectSort(s){
   if(s>=size){ finish(); return }
   arr[s].col=checkCol
@@ -142,7 +178,7 @@ function selectSort(s){
     setTimeout( function(){ display(arr) }, .6*delay)
   }
   setTimeout( function(){ swap(s,lowPos); arr[lowPos].col=initCol[lowPos%2]; arr[s].col=sortCol; display(arr) }, delay)
-  setTimeout( function(){ selectSort(s+1) }, 1.5*delay)
+  setTimeout( function(){ continu() }, 1.5*delay)
 }
  
 function insertSort(i){  
@@ -174,10 +210,8 @@ function insertSort(i){
    }
   }
   setTimeout(function(){ display(arr) }, 1.9*delay)
-  setTimeout(function(){ insertSort(i+1) }, 2*delay)
+  setTimeout(function(){ continu() }, 2*delay)
 }
-
-function stopSort(){}
 
 function bubbleSort(){  
   p=0
@@ -187,8 +221,8 @@ function bubbleSort(){
   
 function bubble(){
   if(p>size-2){
-     if(sorted){ finish() }
-     else{ setTimeout( function(){ bubbleSort() }, delay ); return}
+     if(sorted){ finish(); return }
+     else{ setTimeout( function(){ continu() }, delay ); return}
   }
   steps++
  
@@ -230,11 +264,13 @@ function swap(a,b){
     chartType=-chartType
     display(arr)
   }
+  
 function finish(){
+  for (f=0;f<size;f++){arr[f].col=sortCol}
   display(arr)
-  ct1.font="3vw Monospace"
-  ct1.fillText("Sorted",.5*c1.width,.1*c1.height)
+  steps=0
   work=false
+  go=0
 }
  
 </script>
