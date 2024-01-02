@@ -43,10 +43,9 @@
 <script>
 var c1 = document.getElementById("Canvas1")
 var ct1 = c1.getContext("2d")
-var canWidth=window.innerWidth, canHeight= window.innerHeight
-c1.width=Math.floor(.95*canWidth)
-c1.height=Math.floor(.7*canHeight)
-var boxWidth=Math.floor(.08*canWidth)
+c1.width=Math.floor(.95*window.innerWidth)
+c1.height=Math.floor(.6*window.innerHeight)
+var boxWidth=Math.floor(.08*window.innerWidth)
  
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
@@ -70,7 +69,7 @@ function gen(){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
-           y: Math.floor(.3*canHeight),
+           y: Math.floor(.4*c1.height),
            col: initCol[i%2]
           }
   }
@@ -79,7 +78,7 @@ function gen(){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
-            y: Math.floor(.3*canHeight),
+            y: Math.floor(.4*c1.height),
             col: initCol[i%2]
            }
      if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
@@ -96,14 +95,16 @@ function display(item){
   ct1.font="3vw Monospace"
   ct1.fillText(steps,0,.2*c1.height)
   ct1.font="4vw Monospace"
+  if(choiceAlg.value=="Bubble"){
+    textBox.value="Bubble sort is ..." }
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
     if(chartType==1){
-     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.02*canHeight*item[i].val)
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.02*c1.Height*item[i].val)
     }
     else{
       ct1.beginPath();
-      ct1.arc(item[i].x + .01*canWidth, item[i].y - .01*canHeight, .45*boxWidth, 0, 6.29);
+      ct1.arc(item[i].x + 10, item[i].y - 10, .45*boxWidth, 0, 6.29);
       ct1.fill();
       ct1.lineWidth = 2;
       ct1.stroke();
