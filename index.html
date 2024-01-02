@@ -263,8 +263,8 @@ function swap(a,b){
   function chart(){
     chartType=-chartType
     display(arr)
-    if (chartType==1){slider.innerHtml='<img src="slider1.png">' }
-    else{slider.innerHtml='<img src="slider2.png">' }
+    if (chartType==1){slider.innerHTML='<img src="slider1.png">' }
+    else{slider.innerHTML='<img src="slider2.png">' }
   }
 function finish(){
   for (f=0;f<size;f++){arr[f].col=sortCol}
