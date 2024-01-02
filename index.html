@@ -96,19 +96,18 @@ function display(item){
   ct1.fillStyle="black"
   ct1.font="3vw Monospace"
   ct1.fillText(steps,.9*c1.width,.2*c1.height)
- 
   
   if(choiceAlg.value=="Bubble"){
     text1.value="Bubble sort is ...\n It is O(n*n) complexity"
     text2.value="Compare item[n] to item[n+1]"
   }
+    if(choiceAlg.value=="Insertion"){
+    text1.value="Insert ..."
+    text2.value="Insert ..."
+  }
   if(choiceAlg.value=="Selection"){
     text1.value="Selection sort is ..." 
     text2.value="find lowest item"
-  }
-  if(choiceAlg.value=="Insert"){
-    text1.value="Insert ..."
-    text2.value="Insert ..."
   }
 
   ct1.font="4vw Monospace"
