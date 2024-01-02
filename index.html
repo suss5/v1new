@@ -51,7 +51,7 @@ const boxWidth=Math.floor(.08*window.innerWidth)
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
 const sortButton=document.getElementById('sort')
-const sliderButton=document.getElementById('slider')
+
 const speedDelay=document.getElementById('speed')
 const text1=document.getElementById('myText1')
 const text2=document.getElementById('myText2')
@@ -263,9 +263,8 @@ function swap(a,b){
   function chart(){
     chartType=-chartType
     display(arr)
-    if (chartType==1){slider.innerHTML='<img src="slider1.png" style="width: 10vw; height: 6vh;">' }
-    else{slider.innerHTML='<img src="slider2.png" style="width: 10vw; height: 6vh;">' }
   }
+  
 function finish(){
   for (f=0;f<size;f++){arr[f].col=sortCol}
   display(arr)
