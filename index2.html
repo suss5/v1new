@@ -89,15 +89,10 @@ function gen(){
  }
   steps=0
   display(arr)
-  
+  describe()
 }
- 
-function display(item){
-  ct1.clearRect(0,0,c1.width,c1.height)
-  ct1.fillStyle="black"
-  ct1.font="3vw Monospace"
-  ct1.fillText(steps,.9*c1.width,.2*c1.height)
   
+function describe(){
   if(choiceAlg.value=="Bubble"){
     text1.value="Bubble sort is ...\n It is O(n*n) complexity in worst case"
     text2.value="Comparing 1st and 2nd element\n-swap if 1st element is greater\nRepeat for each pair\nIf any swaps done then restart process"
@@ -110,7 +105,14 @@ function display(item){
     text1.value="Selection sort is ..." 
     text2.value="find lowest item"
   }
-
+}
+ 
+function display(item){
+  ct1.clearRect(0,0,c1.width,c1.height)
+  ct1.fillStyle="black"
+  ct1.font="3vw Monospace"
+  ct1.fillText(steps,.9*c1.width,.2*c1.height)
+  
   ct1.font="4vw Monospace"
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
