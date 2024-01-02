@@ -41,12 +41,11 @@
   </select>
 
 <script>
-var c1 = document.getElementById("Canvas1")
-var ct1 = c1.getContext("2d")
+const c1 = document.getElementById("Canvas1")
+const ct1 = c1.getContext("2d")
 c1.width=Math.floor(.95*window.innerWidth)
 c1.height=Math.floor(.6*window.innerHeight)
-var boxWidth=Math.floor(.08*window.innerWidth)
- 
+const boxWidth=Math.floor(.08*window.innerWidth)
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
 const sortButton=document.getElementById('sort')
@@ -101,9 +100,7 @@ function display(item){
   if(choiceAlg.value=="Selection"){
     textBox.value="Selection sort is ..." }
   if(choiceAlg.value=="Insert"){
-    textBox.value="Insert sort is ...
-      line2
-      line3" }
+    textBox.value="Insert sort is ..." }
 
   ct1.font="4vw Monospace"
   for(i=0;i<size;i++){
