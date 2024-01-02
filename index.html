@@ -31,8 +31,8 @@
  <br>
  <canvas id="Canvas1" style="border: 1px solid"></canvas>
  <br>
- <textarea id="myText1" rows="10" style="width: 49%"></textarea>
- <textarea id="myText2" rows="10" style="width: 49%"></textarea>
+ <textarea id="myText1" rows="12" style="width: 49%"></textarea>
+ <textarea id="myText2" rows="12" style="width: 49%"></textarea>
  <br>
  <label for="setsize" style="font-size: 2vw">Edit Data Set</label>
  <select id="setsize" style="font-size: 2vw">
@@ -114,7 +114,7 @@ function display(item){
   for(i=0;i<size;i++){
     ct1.fillStyle=item[i].col
     if(chartType==1){
-     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.03*c1.height*item[i].val)
+     ct1.fillRect(item[i].x,item[i].y,.9*boxWidth,-.04*c1.height*item[i].val)
     }
     else{
       ct1.beginPath();
