@@ -101,9 +101,16 @@ function gen(){
            y: Math.floor(.8*c1.height),
            col: initCol[i%2]
           }}}
-
-
-  //if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
+  
+  if(type==2){
+   for(i=0;i<size;i++){
+   arr[i]={val: prompt("Enter item "+(i+1)),
+           x: boxWidth*(i+1),
+           y: Math.floor(.8*c1.height),
+           col: initCol[i%2]
+          }}
+  }
+  
  steps=0; oldsteps=0
  oldarr=JSON.parse( JSON.stringify(arr) )
  display(arr)
