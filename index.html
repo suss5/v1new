@@ -34,12 +34,20 @@
  <textarea id="myText1" rows="12" style="resize: none; border: 2px solid; width: 49%"></textarea>
  <textarea id="myText2" rows="12" style="resize: none; border: 2px solid; width: 49%"></textarea>
  <br>
- <label for="setsize" style="font-size: 2vw">Edit Data Set</label>
+ <label for="setsize" style="font-size: 2vw">Edit Data Size</label>
  <select id="setsize" style="font-size: 2vw">
-    <option value="6">6 Random</option>
-    <option value="10">10 Random</option>
-    <option value="7">7 UserInput</option>
-    <option value="9">9 Decrease</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+  </select>
+   
+<label for="setType" style="font-size: 2vw">Edit Data Type</label>
+ <select id="setType" style="font-size: 2vw">
+    <option value="1">Random</option>
+    <option value="2">UserInput</option>
+    <option value="3">Decrease</option>
+    <option value="4">Sorted</option>
   </select>
 
 <script>
@@ -50,6 +58,7 @@ c1.height=Math.floor(.4*window.innerHeight)
 const boxWidth=Math.floor(.07*window.innerWidth)
 const choiceAlg=document.getElementById('algorithm')
 const choiceSize=document.getElementById('setsize')
+const choiceType=document.getElementById('setType')
 const sortButton=document.getElementById('sort')
 
 const speedDelay=document.getElementById('speed')
@@ -67,8 +76,9 @@ gen()
  
 function gen(){
  if(work){return}
- size=+(choiceSize.value) 
- if(size==9){
+ size=+(choiceSize.value)
+ type=+(choiceType.value)
+ if(type==3){
   for(i=0;i<size;i++){
    arr[i]={val: 9-i,
            x: boxWidth*(i+1),
@@ -77,16 +87,23 @@ function gen(){
           }
    }
  }
-  else{
+  if(type==1){
    for(i=0;i<size;i++){
     arr[i]={val: Math.floor(1+Math.random()*9),
             x: boxWidth*(i+1),
             y: Math.floor(.8*c1.height),
             col: initCol[i%2]
-           }
-     if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
-   }
- }
+           } }}
+  if(type==4){
+   for(i=0;i<size;i++){
+   arr[i]={val: i+1,
+           x: boxWidth*(i+1),
+           y: Math.floor(.8*c1.height),
+           col: initCol[i%2]
+          }}}
+
+
+  //if(size==7){arr[i].val=prompt("Enter item "+(i+1) ) }
  steps=0; oldsteps=0
  oldarr=JSON.parse( JSON.stringify(arr) )
  display(arr)
