@@ -118,9 +118,9 @@ function gen(){
 
 function describe(){
      if(choiceAlg.value=="Bubble"){
-    text1.value="Bubble sort is ...\n It is O(n*n) complexity in worst case"
-    text2.value="Comparing 1st and 2nd element\n-swap if 1st element is greater\nRepeat for each pair\nIf any swaps done then restart process"
-  }
+    text1.value="Bubble sort functions by iteratively going through the array for the number of elements within the array. It swaps as it goes moving the largest number it has found up the list until it reaches a larger number and then begins to bubble that up to the top. Once it has reached the top it then repeats this process for however many elements in the array there is. Due to this it has an average and worst case of O(n2) and a best case in the event the numbers are already sorted of O(n). As it will not create any more variables besides from two to index the array as the list gets longer it has a space complexity of O(1)."
+    text2.value = "procedure bubbleSort(array)\n\t n = array.length\n\t for i = 0 to n-2\n\t\t for j = 0 to n-i-2\n\t\t\t if array[j] > array[j+1] then\n\t\t\t\t temp = array[j]\n\t\t\t\t array[j] = array[j+1]\n\t\t\t\t array[j+1] = temp\n\t\t\t endif\n\t\t endfor\n\t endfor\nendprocedure"
+     }
     if(choiceAlg.value=="Insertion"){
     text1.value="Place holder for insertion sort\nthis is line 2\nline 3"
     text2.value="Second placeholder for insertion"
