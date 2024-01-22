@@ -167,7 +167,7 @@ function stopSort(){ go=0 }
   
 function oneSort(){
   if(work){ return }
-  if(arr[size-1].col==sortCol){ return }
+  if(fullySorted() ){ return }
   work=true
   oldarr=JSON.parse( JSON.stringify(arr) )
   oldsteps=steps
@@ -175,6 +175,12 @@ function oneSort(){
   if(choiceAlg.value=="Bubble"){ bubbleSort() }
   if(choiceAlg.value=="Insertion"){ arr[0].col=sortCol; insertSort( sortedUpTo(arr) ) }
   if(choiceAlg.value=="Selection"){ selectSort( sortedUpTo(arr) ) }
+}
+function fullySorted(){
+ for(let d=0; d<size; d++){
+   if(arr[d].col!=sortCol){return false}
+ }
+ return true
 }
 
 function sortedUpTo(lookin){
@@ -248,7 +254,9 @@ function bubbleSort(){
 }
   
 function bubble(){
-  if(p>size-2){
+  if(p>size-2 || arr[p+1].col==sortCol){
+     arr[p].col=sortCol
+     display(arr)
      if(sorted){ finish(); return }
      else{ setTimeout( function(){ continu() }, delay ); return}
   }
@@ -277,6 +285,7 @@ function bubble(){
     
    arr[p].col=initCol[p%2]
    arr[p+1].col=initCol[(p+1)%2]
+   if(p==size-2 || arr[p+2].col==sortCol){ arr[p+1].col=sortCol }
    setTimeout(function(){ display(arr) }, .7*delay)
    setTimeout(function(){ p++; bubble() },delay)
  }
@@ -297,7 +306,7 @@ function chart(){
   display(arr)
 }
 function finish(){
-  for (f=0;f<size;f++){arr[f].col=sortCol}
+  for (let f=0;f<size;f++){arr[f].col=sortCol}
   display(arr)
   steps=0
   work=false
