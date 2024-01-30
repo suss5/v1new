@@ -16,7 +16,7 @@
 }
 
 .toggle:before {
-  content: "on off";
+  content: " ";
   display: block;
   position: absolute;
   z-index: 2;
