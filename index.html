@@ -72,6 +72,8 @@ var work=false, sorted, chartType=1
 const sortCol="green", wrongCol="red", checkCol="orange"
 const initCol=["brown","purple"]
 var p,steps=0, oldsteps=0, delay, go=0
+
+var statist={ n: 0, t: 0}
   
 describe()
 gen()
@@ -308,6 +310,8 @@ function chart(){
   display(arr)
 }
 function finish(){
+  statist.n++
+  statist.t+=steps
   for (let f=0;f<size;f++){arr[f].col=sortCol}
   display(arr)
   steps=0
