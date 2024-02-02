@@ -133,6 +133,10 @@ function describe(){
     text1.value="Selection sort functions by iteratively going through the entire list to find the smallest element. This will then be swapped with the first element. This then repeats while not counting those already sorted smallest ones throughout the entire array until it is sorted. Due to the fact that selection sort must go through the whole array for the number of times there are numbers within the array the number of comparisons will be ((n^2)-n)/2 which in big O notation simplifies to O(n^2). This results in the time complexity of selection sort being O(n^2) regardless of how the array is originally sorted.\n Selection: average comparisons =" 
     text2.value = "procedure SelectionSort(array)\n\t for i = 0 to array.length - 1\n\t\t min = i\n\t\t for j = i + 1 to array.length - 1\n\t\t\t if array[j] < array[min] then\n\t\t\t\t min = j\n\t\t\t endif\n\t\t endfor\n\t\t temp = array[i]\n\t\t array[i] = array[min]\n\t\t array[min] = temp\n\t endfor\nendprocedure"
   }
+  if(choiceAlg.value=="Statistics"){
+    text1.value="There have been " + statist.t + " compares over " + statist.n + " sorts"
+    text2.value=""
+  }
 }
  
 function display(item){
