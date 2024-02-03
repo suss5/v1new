@@ -316,6 +316,7 @@ function chart(){
 function finish(){
   statist.n++
   statist.t+=steps
+  alert( "sort "+ statist.n +" complete")
   for (let f=0;f<size;f++){arr[f].col=sortCol}
   display(arr)
   steps=0
