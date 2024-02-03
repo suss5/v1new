@@ -223,7 +223,8 @@ function selectSort(s){
   setTimeout( function(){ continu() }, 1.5*delay)
 }
  
-function insertSort(i){  
+function insertSort(i){
+  alert(i + " of " + size)
   if(i>=size){ finish(); return }
   arr[i].col=checkCol
   display(arr)
