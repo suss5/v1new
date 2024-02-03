@@ -225,7 +225,7 @@ function selectSort(s){
  
 function insertSort(i){
   alert(i + " of " + size)
-  if(i>=size){ finish(); return }
+  
   arr[i].col=checkCol
   display(arr)
   arr[i].col=sortCol
@@ -253,7 +253,10 @@ function insertSort(i){
    }
   }
   setTimeout(function(){ display(arr) }, 1.9*delay)
-  setTimeout(function(){ continu() }, 2*delay)
+  if(i>=size-1){ setTimeout( function(){finish()}, 2*delay ) }
+  else{
+   setTimeout(function(){ continu() }, 2*delay)
+  }
 }
 
 function bubbleSort(){  
