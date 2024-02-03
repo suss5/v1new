@@ -205,7 +205,7 @@ function continu(){
 }
   
 function selectSort(s){
-  if(s>=size){ finish(); return }
+  if(s>=size-1){ finish(); return }
   arr[s].col=checkCol
   display(arr)
   lowest=arr[s].val
@@ -224,7 +224,7 @@ function selectSort(s){
 }
  
 function insertSort(i){  
-  if(i>=size){ finish(); return }
+  if(i>=size-1){ finish(); return }
   arr[i].col=checkCol
   display(arr)
   arr[i].col=sortCol
